@@ -393,11 +393,7 @@ axios.get(uri, headers);
 > The above command returns JSON structured like this:
 
 ```json
-[
-  "2019-07-07T07:00:00.000Z", 
-  "2019-07-08T07:00:00.000Z", 
-  "2019-07-09T07:00:00.000Z"
-]
+["2019-07-07T07:00:00.000Z", "2019-07-08T07:00:00.000Z", "2019-07-09T07:00:00.000Z"]
 ```
 
 This endpoint gets the list of dates, up to 2 weeks starting from today, that have at least one opening for that given day.
@@ -490,10 +486,10 @@ const data = {
     label: "Mani"
   },
   is_confirmed: "true"
-}
+};
 const headers = {
   Authorization: "Bearer <id_token>"
-}
+};
 
 axios.post(uri, data, headers);
 ```
@@ -506,12 +502,12 @@ This endpoint books an appoinment for the given parameters.
 
 ### Body Parameters
 
-| Parameter    | Required | Description                                                      |
-| ------------ | -------- | ---------------------------------------------------------------- |
-| provider_id  | true     | The id of the provider that the appointment is being booked for. |
-| opening      | true     | The opening object for the requested appointment.                |
-| service      | true     | The service object for the requested appointment.                |
-| is_confirmed | false    | If set to true, makes the appointment confirmed automatically.   |
+| Parameter    | Required | Description                                                       |
+| ------------ | -------- | ----------------------------------------------------------------- |
+| provider_id  | true     | The id of the provider that the appointment is being booked for.  |
+| opening_id   | true     | The id of the opening that reflects the timing of the appointment |
+| service      | true     | The service object for the requested appointment.                 |
+| is_confirmed | false    | If set to true, makes the appointment confirmed automatically.    |
 
 <aside class="notice">
   `is_confirmed` should be set to true for all appointments being made by providers using a platform.
