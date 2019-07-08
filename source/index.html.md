@@ -457,7 +457,7 @@ This endpoint gets the list of appointments of the authenticated user from the d
 | get_denied    | false   | If set to true, also gets the appointments that have been denied |
 | get_cancelled | false   | If set to true, also gets appointments that have been cancelled  |
 
-## Add a new Appointment
+## Book an Appointment
 
 > Example request:
 
