@@ -29,14 +29,14 @@ If you have any questions, please feel free to contact Anthony at <anthony@slayb
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api_endpoint_here"
+curl "https://app-stage.slaybeautypass.com/api_endpoint_here"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/your_endpoint_here";
+const uri = "https://app-stage.slaybeautypass.com/api/your_endpoint_here";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -87,14 +87,14 @@ If not successful, the success property is set to false, and the message propert
 ## Get Customer
 
 ```shell
-curl "https://app.slaybeautypass.com/api/customers"
+curl "https://app-stage.slaybeautypass.com/api/customers"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/customers";
+const uri = "https://app-stage.slaybeautypass.com/api/customers";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -130,7 +130,7 @@ This endpoint retrieves the logged in customer.
 
 ### HTTP Request
 
-`GET https://app.slaybeautypass.com/api/customers`
+`GET https://app-stage.slaybeautypass.com/api/customers`
 
 ## Add New Customer
 
@@ -138,7 +138,7 @@ This endpoint creates a customer with the email address of the authenticated use
 
 ### HTTP Request
 
-`POST https://app.slaybeautypass.com/api/customers`
+`POST https://app-stage.slaybeautypass.com/api/customers`
 
 ## Charge Customer
 
@@ -146,7 +146,7 @@ This endpoint charges the customer.
 
 ### HTTP Request
 
-`PUT https://app.slaybeautypass.com/api/customers/charge`
+`PUT https://app-stage.slaybeautypass.com/api/customers/charge`
 
 ### Body Parameters
 
@@ -162,7 +162,7 @@ This endpoint updates the customer in the database.
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/customers/update"
+curl "https://app-stage.slaybeautypass.com/api/customers/update"
   -X PUT
   -H "Content-Type: application/json"
   -H "Authorization: Bearer <id_token>"
@@ -172,7 +172,7 @@ curl "https://app.slaybeautypass.com/api/customers/update"
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/customers/update";
+const uri = "https://app-stage.slaybeautypass.com/api/customers/update";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -185,7 +185,7 @@ axios.put(uri, data, headers);
 
 ### HTTP Request
 
-`PUT https://app.slaybeautypass.com/api/customers/update`
+`PUT https://app-stage.slaybeautypass.com/api/customers/update`
 
 ### Body Parameters
 
@@ -201,14 +201,14 @@ axios.put(uri, data, headers);
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/providers?service=mani"
+curl "https://app-stage.slaybeautypass.com/api/providers?service=mani"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/providers?service=mani";
+const uri = "https://app-stage.slaybeautypass.com/api/providers?service=mani";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -270,7 +270,7 @@ A platform refers to a software booking system that a provider potentially uses 
 
 ### HTTP Request
 
-`GET https://app.slaybeautypass.com/api/providers`
+`GET https://app-stage.slaybeautypass.com/api/providers`
 
 ### Query Parameters
 
@@ -286,14 +286,14 @@ A platform refers to a software booking system that a provider potentially uses 
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/services"
+curl "https://app-stage.slaybeautypass.com/api/services"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/services";
+const uri = "https://app-stage.slaybeautypass.com/api/services";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -324,7 +324,7 @@ This endpoint gets the list of services from the database.
 
 ### HTTP Request
 
-`GET https://app.slaybeautypass.com/api/services`
+`GET https://app-stage.slaybeautypass.com/api/services`
 
 # Openings
 
@@ -334,14 +334,14 @@ This endpoint gets the list of services from the database.
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/openings"
+curl "https://app-stage.slaybeautypass.com/api/openings"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/openings";
+const uri = "https://app-stage.slaybeautypass.com/api/openings";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -367,7 +367,7 @@ This endpoint gets the list of openings from the database.
 
 ### HTTP Request
 
-`GET https://app.slaybeautypass.com/api/openings`
+`GET https://app-stage.slaybeautypass.com/api/openings`
 
 ## Get Opening Dates
 
@@ -375,14 +375,14 @@ This endpoint gets the list of openings from the database.
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/opening_dates"
+curl "https://app-stage.slaybeautypass.com/api/opening_dates"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/opening_dates";
+const uri = "https://app-stage.slaybeautypass.com/api/opening_dates";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -400,7 +400,7 @@ This endpoint gets the list of dates, up to 2 weeks starting from today, that ha
 
 ### HTTP Request
 
-`GET https://app.slaybeautypass.com/api/opening_dates`
+`GET https://app-stage.slaybeautypass.com/api/opening_dates`
 
 # Appointments
 
@@ -410,14 +410,14 @@ This endpoint gets the list of dates, up to 2 weeks starting from today, that ha
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/transactions"
+curl "https://app-stage.slaybeautypass.com/api/transactions"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/transactions;
+const uri = "https://app-stage.slaybeautypass.com/api/transactions;
 const headers = {
   Authorization: "Bearer <id_token>"
 }
@@ -448,7 +448,7 @@ This endpoint gets the list of appointments of the authenticated user from the d
 
 ### HTTP Request
 
-`GET https://app.slaybeautypass.com/api/transactions`
+`GET https://app-stage.slaybeautypass.com/api/transactions`
 
 ### Query Parameters
 
@@ -463,7 +463,7 @@ This endpoint gets the list of appointments of the authenticated user from the d
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/transactions"
+curl "https://app-stage.slaybeautypass.com/api/transactions"
   -X POST
   -H "Content-Type: application/json"
   -H "Authorization: Bearer <id_token>"
@@ -477,7 +477,7 @@ curl "https://app.slaybeautypass.com/api/transactions"
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/transactions";
+const uri = "https://app-stage.slaybeautypass.com/api/transactions";
 const data = {
   provider_id: "507f1f77bcf86cd799439011",
   opening_id: "507f1f77bcf86cd799439011",
@@ -498,7 +498,7 @@ This endpoint books an appoinment for the given parameters.
 
 ### HTTP Request
 
-`POST https://app.slaybeautypass.com/api/transactions`
+`POST https://app-stage.slaybeautypass.com/api/transactions`
 
 ### Body Parameters
 
@@ -519,7 +519,7 @@ This endpoint books an appoinment for the given parameters.
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app.slaybeautypass.com/api/transactions/cancel"
+curl "https://app-stage.slaybeautypass.com/api/transactions/cancel"
   -X PUT
   -H "Content-Type: application/json"
   -H "Authorization: Bearer <id_token>"
@@ -529,7 +529,7 @@ curl "https://app.slaybeautypass.com/api/transactions/cancel"
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app.slaybeautypass.com/api/transactions;
+const uri = "https://app-stage.slaybeautypass.com/api/transactions;
 const data = {
   transaction_id: "507f1f77bcf86cd799439011"
 }
@@ -544,7 +544,7 @@ This endpoint cancel a booked appoinment.
 
 ### HTTP Request
 
-`PUT https://app.slaybeautypass.com/api/transactions`
+`PUT https://app-stage.slaybeautypass.com/api/transactions`
 
 ### Body Parameters
 
