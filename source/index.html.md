@@ -237,16 +237,17 @@ axios.get(uri, headers);
     "neighborhood": "south end",
     "metro_area": "Boston",
     "photo_url": "",
-    "services": [{
+    "services": {
       "massage": {
         "credits": 40,
         "retail_price": 60,
         "payout": 10
       }
-    }],
+    },
+    "services_meta": "Mani, Pedi, Massage",
     "test_mode": false,
     "price_range": "$$",
-    "tags": ["Cocktail Bar", "Free Parking", "Pet Friendly"],
+    "tags": "Cocktail Bar, Free Parking, Pet Friendly",
     "uses_platform": false,
     "platform_data": {
       "platform_id": "",
@@ -256,7 +257,7 @@ axios.get(uri, headers);
       "admin_username": "",
       "admin_password": "",
       "access_token": "",
-      "location_id": "",
+      "location_id": 0,
       "services_mapping": [
         {
           "slug": "",
