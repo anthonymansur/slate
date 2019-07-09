@@ -237,7 +237,13 @@ axios.get(uri, headers);
     "neighborhood": "south end",
     "metro_area": "Boston",
     "photo_url": "",
-    "services": [],
+    "services": [{
+      "massage": {
+        "credits": 40,
+        "retail_price": 60,
+        "payout": 10
+      }
+    }],
     "test_mode": false,
     "price_range": "$$",
     "tags": ["Cocktail Bar", "Free Parking", "Pet Friendly"],
