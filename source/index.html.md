@@ -390,7 +390,7 @@ This endpoint gets the list of openings from the database.
 | provider_id | false    | The id to filter the openings by.                                                                           |
 | service     | true     | The service (slug) to get the openings by.                                                                  |
 | start_time  | false    | If set, only get openings that start at or after start_time. Otherwise, default is set to an hour from now. |
-| end_time    | false    | If set, only get openings that end at or before end_time. Otherwise, default is set to an hour from now.    |
+| end_time    | false    | If set, only get openings that end at or before end_time. Otherwise, default is set to EOD of start_time    |
 
 ## Get Opening Dates
 
