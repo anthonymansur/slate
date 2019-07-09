@@ -201,14 +201,14 @@ axios.put(uri, data, headers);
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app-stage.slaybeautypass.com/api/providers?service=mani"
+curl "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_available=true&user_latitude=35.232352&user_longitude=-80.846744"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app-stage.slaybeautypass.com/api/providers?service=mani";
+const uri = "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_available=true&user_latitude=35.232352&user_longitude=-80.846744";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -257,7 +257,10 @@ axios.get(uri, headers);
           "platform_service_id": -1
         }
       ]
-    }
+    },
+    // next two fields are only available if user_latitude & user_longitude are provided
+    "distance_to_user": 5020,
+    "distance_to_user_in_miles": 3.1
   }
 ]
 ```
@@ -274,10 +277,12 @@ A platform refers to a software booking system that a provider potentially uses 
 
 ### Query Parameters
 
-| Parameter    | Required | Description                                                                                      |
-| ------------ | -------- | ------------------------------------------------------------------------------------------------ |
-| service      | false    | The service (slug) to filter by.                                                                 |
-| is_available | false    | If set, only get providers with an active opening (filtered by service if service param is set.) |
+| Parameter      | Required | Description                                                                                      |
+| -------------- | -------- | ------------------------------------------------------------------------------------------------ |
+| service        | false    | The service (slug) to filter by.                                                                 |
+| is_available   | false    | If set, only get providers with an active opening (filtered by service if service param is set.) |
+| user_latitude  | false    | The latitude of the user (if set, must also provide longitude)                                   |
+| user_longitude | false    | The longitude of the user (if set, must also provide latitude)                                   |
 
 # Service
 
