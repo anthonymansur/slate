@@ -239,7 +239,7 @@ axios.get(uri, headers);
     "photo_url": "",
     "services": [],
     "test_mode": false,
-    "tier_level": "$$",
+    "price_range": "$$",
     "tags": ["Cocktail Bar", "Free Parking", "Pet Friendly"],
     "uses_platform": false,
     "platform_data": {
