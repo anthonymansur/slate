@@ -208,7 +208,8 @@ curl "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_availab
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_available=true&user_latitude=35.232352&user_longitude=-80.846744";
+const uri =
+  "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_available=true&user_latitude=35.232352&user_longitude=-80.846744";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -574,6 +575,48 @@ This endpoint cancel a booked appoinment.
 | Parameter      | Required | Description                                 |
 | -------------- | -------- | ------------------------------------------- |
 | transaction_id | true     | The id of the booked appointment to cancel. |
+
+# Subscriptions
+
+## Selecting a Beauty Pass
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/subscriptions"
+  -X PUT
+  -H "Content-Type: application/json"
+  -H "Authorization: Bearer <id_token>"
+  -d '{"token": tok_1EuT6v2eZvKYlo2CHki1KX4, "plan_id": plan_DFpIzZ7mpBqUj0}'
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/subscriptions;
+const data = {
+  token: "tok_1EuT6v2eZvKYlo2CHki1KX4",
+  plan_id: "plan_DFpIzZ7mpBqUj0"
+}
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.post(uri, data, headers);
+```
+This endpoint is used to subscribe a user to a beauty pass subscriscription.
+
+### HTTP Request
+
+`POST https://app-stage.slaybeautypass.com/api/subscriptions`
+
+### Body Parameters
+
+| Parameter | Required | Description                                                    |
+| --------- | -------- | -------------------------------------------------------------- |
+| token     | true     | The stripe token corresponding to the user's debit/credit card |
+| plan_id   | true     | The id of the plan the user is subscribing to                  |
 
 <!--
 ### Query Parameters
