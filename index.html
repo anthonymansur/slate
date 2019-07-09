@@ -595,6 +595,35 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings"</span>
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint gets the list of openings from the database.</p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>provider_id</td>
+<td>false</td>
+<td>The id to filter the openings by.</td>
+</tr>
+<tr>
+<td>service</td>
+<td>true</td>
+<td>The service (slug) to get the openings by.</td>
+</tr>
+<tr>
+<td>start_time</td>
+<td>false</td>
+<td>If set, only get openings that start at or after start_time. Otherwise, default is set to an hour from now.</td>
+</tr>
+<tr>
+<td>end_time</td>
+<td>false</td>
+<td>If set, only get openings that end at or before end_time. Otherwise, default is set to an hour from now.</td>
+</tr>
+</tbody></table>
 <h3 id='http-request-7'>HTTP Request</h3>
 <p><code>GET https://app-stage.slaybeautypass.com/api/openings</code></p>
 <h2 id='get-opening-dates'>Get Opening Dates</h2>
@@ -658,7 +687,7 @@ const headers = {
 <p>This endpoint gets the list of appointments of the authenticated user from the database.</p>
 <h3 id='http-request-9'>HTTP Request</h3>
 <p><code>GET https://app-stage.slaybeautypass.com/api/transactions</code></p>
-<h3 id='query-parameters-2'>Query Parameters</h3>
+<h3 id='query-parameters-3'>Query Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
