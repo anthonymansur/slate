@@ -274,9 +274,10 @@ A platform refers to a software booking system that a provider potentially uses 
 
 ### Query Parameters
 
-| Parameter | Required | Description                      |
-| --------- | -------- | -------------------------------- |
-| service   | false    | The service (slug) to filter by. |
+| Parameter    | Required | Description                                                                                      |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------ |
+| service      | false    | The service (slug) to filter by.                                                                 |
+| is_available | false    | If set, only get providers with an active opening (filtered by service if service param is set.) |
 
 # Service
 
@@ -366,6 +367,10 @@ axios.get(uri, headers);
 
 This endpoint gets the list of openings from the database.
 
+### HTTP Request
+
+`GET https://app-stage.slaybeautypass.com/api/openings`
+
 ### Query Parameters
 
 | Parameter   | Required | Description                                                                                                 |
@@ -374,10 +379,6 @@ This endpoint gets the list of openings from the database.
 | service     | true     | The service (slug) to get the openings by.                                                                  |
 | start_time  | false    | If set, only get openings that start at or after start_time. Otherwise, default is set to an hour from now. |
 | end_time    | false    | If set, only get openings that end at or before end_time. Otherwise, default is set to an hour from now.    |
-
-### HTTP Request
-
-`GET https://app-stage.slaybeautypass.com/api/openings`
 
 ## Get Opening Dates
 
