@@ -463,10 +463,14 @@ axios.get(uri, headers);
     "is_cancelled_confirmed": false,
     "status": "confirmed", // can also be "denied" or "pending"
     "number_of_times_called": 0,
-    "platform_appointment_id": 0
+    "platform_appointment_id": 0,
+    "technician_first_name": "Sarah",
+    "technician_last_name": "Brooks"
   }
 ]
 ```
+
+> Note: platform_appointment_id, technician_first_name, and technician_last_name are only available if a provider is integrated with a platform.
 
 This endpoint gets the list of appointments of the authenticated user from the database.
 
