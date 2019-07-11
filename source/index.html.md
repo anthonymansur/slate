@@ -372,7 +372,8 @@ axios.get(uri, headers);
     "start_time": "2018-07-27 10:00:00.000",
     "end_time": "2018-07-27 11:00:00.000",
     "is_available": true,
-    "service_type": "mani"
+    "service_type": "mani",
+    "technician_id": 100324
   }
 ]
 ```
