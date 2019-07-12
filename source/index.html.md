@@ -334,7 +334,7 @@ axios.get(uri, headers);
 ]
 ```
 
-This endpoint gets the list of services from the database.
+This endpoint gets the list of active services from the database.
 
 ### HTTP Request
 
