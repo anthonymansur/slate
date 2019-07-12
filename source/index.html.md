@@ -240,6 +240,7 @@ axios.get(uri, headers);
     "photo_url": "",
     "services": {
       "massage": {
+        "label": "Massage",
         "credits": 40,
         "retail_price": 60,
         "payout": 10
@@ -250,22 +251,6 @@ axios.get(uri, headers);
     "price_range": "$$",
     "tags": "Cocktail Bar, Free Parking, Pet Friendly",
     "uses_platform": false,
-    "platform_data": {
-      "platform_id": "",
-      "site_id": -1,
-      "api_key": "",
-      "admin_id": "",
-      "admin_username": "",
-      "admin_password": "",
-      "access_token": "",
-      "location_id": 0,
-      "services_mapping": [
-        {
-          "slug": "",
-          "platform_service_id": -1
-        }
-      ]
-    },
     // next two fields are only available if user_latitude & user_longitude are provided
     "distance_to_user": 5020,
     "distance_to_user_in_miles": 3.1
