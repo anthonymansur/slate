@@ -258,7 +258,7 @@ axios.get(uri, headers);
 ]
 ```
 
-This endpoint gets the list of providers from the database.
+This endpoint gets the list of providers from the database. If the user's coordinates are provided, the endpoint will sort the providers from closest to farthest.
 
 <aside class="notice">
 A platform refers to a software booking system that a provider potentially uses to manage their appointments. If we are integrated with them, the `uses_platform` field will be set to `true`.
