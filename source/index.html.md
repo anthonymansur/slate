@@ -358,12 +358,12 @@ axios.get(uri, headers);
     "end_time": "2018-07-27 11:00:00.000",
     "is_available": true,
     "service_type": "mani",
-    "employee" : {
+    "employee": {
       "id": 100324,
       "gender": "female",
       "first_name": "Sarah",
       "last_name": "Brooks"
-    }    
+    }
   }
 ]
 ```
@@ -499,14 +499,14 @@ const uri = "https://app-stage.slaybeautypass.com/api/transactions";
 const data = {
   provider_id: "507f1f77bcf86cd799439011",
   opening: {
-    _id: ObjectId('507f1f77bcf86cd799439011'),
+    _id: ObjectId("507f1f77bcf86cd799439011"),
     start_time: "2019-06-01T12:00:00-04:00",
     end_time: "2019-06-01T12:30:00-04:00",
     employee: {
       id: 100324,
       gender: "female",
       first_name: "Sarah",
-      last_name: "Brooks",
+      last_name: "Brooks"
     }
   },
   service: {
@@ -584,7 +584,220 @@ This endpoint cancel a booked appoinment.
 
 # Subscriptions
 
-## Selecting a Beauty Pass
+## Get all Subscriptions Tiers
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/levels"
+  -H "Content-Type: application/json"
+  -H "Authorization: Bearer <id_token>"
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/levels;
+
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.get(uri, data, headers);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "name": "Essentials",
+    "slug": "essentials",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 1,
+      "max": 2
+    },
+    "credits": 20,
+    "price": 30,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 1.2049433573635433,
+    "price_after_fees": 31.204943357363543,
+    "plan_id": "plan_FPKJhDDIPntG71"
+  },
+  {
+    "name": "Glow",
+    "slug": "glow",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 2,
+      "max": 3
+    },
+    "credits": 30,
+    "price": 45,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 1.6529351184345984,
+    "price_after_fees": 46.6529351184346,
+    "plan_id": "plan_FPKK0QGkAfBOVK"
+  }
+]
+```
+
+This endpoint is used to get all the subscription tiers currently offered.
+
+### HTTP Request
+
+`POST https://app-stage.slaybeautypass.com/api/levels`
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "name": "Essentials",
+    "slug": "essentials",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 1,
+      "max": 2
+    },
+    "credits": 20,
+    "price": 30,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 1.2049433573635433,
+    "price_after_fees": 31.204943357363543,
+    "plan_id": "plan_FPKJhDDIPntG71"
+  },
+  {
+    "name": "Glow",
+    "slug": "glow",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 2,
+      "max": 3
+    },
+    "credits": 30,
+    "price": 45,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 1.6529351184345984,
+    "price_after_fees": 46.6529351184346,
+    "plan_id": "plan_FPKK0QGkAfBOVK"
+  }
+]
+```
+
+This endpoint is used to get all the subscription tiers currently offered.
+
+### HTTP Request
+
+`POST https://app-stage.slaybeautypass.com/api/levels`
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "name": "Essentials",
+    "slug": "essentials",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 1,
+      "max": 2
+    },
+    "credits": 20,
+    "price": 30,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 1.2049433573635433,
+    "price_after_fees": 31.204943357363543,
+    "plan_id": "plan_FPKJhDDIPntG71"
+  },
+  {
+    "name": "Glow",
+    "slug": "glow",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 2,
+      "max": 3
+    },
+    "credits": 30,
+    "price": 45,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 1.6529351184345984,
+    "price_after_fees": 46.6529351184346,
+    "plan_id": "plan_FPKK0QGkAfBOVK"
+  }
+]
+```
+
+This endpoint is used to get all the subscription tiers currently offered.
+
+### HTTP Request
+
+`POST https://app-stage.slaybeautypass.com/api/levels`
+
+## Get Subscription
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/subscriptions"
+  -H "Content-Type: application/json"
+  -H "Authorization: Bearer <id_token>"
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/subscriptions;
+
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.get(uri, data, headers);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "name": "Flawless",
+    "slug": "flawless",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 5,
+      "max": 7
+    },
+    "credits": 60,
+    "price": 90,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 2.9969104016477814,
+    "price_after_fees": 92.99691040164778,
+    "plan_id": "plan_FPKKSr3GeDLEeK",
+    "created": "2019-07-13T13:38:26-04:00",
+    "current_period_start": "2019-08-13T13:38:26-04:00",
+    "current_period_end": "2019-08-13T13:38:26-04:00"
+  }
+]
+```
+
+This endpoint is used to get the subscription tier of the logged in user.
+
+### HTTP Request
+
+`POST https://app-stage.slaybeautypass.com/api/subscriptions`
+
+## Subscribing to a Beauty Pass
 
 > Example request:
 
