@@ -610,7 +610,12 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings"</span>
     </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-27 11:00:00.000"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"is_available"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"service_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mani"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"technician_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100324</span><span class="w">
+    </span><span class="s2">"employee"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100324</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"female"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sarah"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Brooks"</span><span class="w">
+    </span><span class="p">}</span><span class="w">    
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -742,8 +747,8 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
   -H <span class="s2">"Content-Type: application/json"</span>
   -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
   -d <span class="s1">'{"provider_id":"507f1f77bcf86cd799439011",
-      "opening_id": "507f1f77bcf86cd799439011",
-      "service": "{"slug": "mani", "label": "Mani"}",
+      "opening": '</span><span class="o">{</span><span class="s2">"_id"</span>: <span class="s2">"ObjectId('507f1f77bcf86cd799439011')"</span>, <span class="s2">"start_time"</span>: <span class="s2">"2019-06-01T12:00:00-04:00"</span>, <span class="s2">"end_time"</span>: <span class="s2">"2019-06-01T12:30:00-04:00"</span>, <span class="s2">"employee"</span>: <span class="o">{</span><span class="s2">"id"</span>: 100324, <span class="s2">"gender"</span>: <span class="s2">"female"</span>, <span class="s2">"first_name"</span>: <span class="s2">"Sarah"</span>, <span class="s2">"last_name"</span>:<span class="s2">"Brooks"</span><span class="o">}}</span><span class="s1">',
+      "service": '</span><span class="o">{</span><span class="s2">"slug"</span>: <span class="s2">"mani"</span>, <span class="s2">"label"</span>: <span class="s2">"Mani"</span><span class="o">}</span><span class="s1">',
       "is_confirmed": "true"
       }'</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
@@ -751,7 +756,17 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
 <span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</span><span class="p">;</span>
 <span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">provider_id</span><span class="p">:</span> <span class="s2">"507f1f77bcf86cd799439011"</span><span class="p">,</span>
-  <span class="na">opening_id</span><span class="p">:</span> <span class="s2">"507f1f77bcf86cd799439011"</span><span class="p">,</span>
+  <span class="na">opening</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">_id</span><span class="p">:</span> <span class="nx">ObjectId</span><span class="p">(</span><span class="s1">'507f1f77bcf86cd799439011'</span><span class="p">),</span>
+    <span class="na">start_time</span><span class="p">:</span> <span class="s2">"2019-06-01T12:00:00-04:00"</span><span class="p">,</span>
+    <span class="na">end_time</span><span class="p">:</span> <span class="s2">"2019-06-01T12:30:00-04:00"</span><span class="p">,</span>
+    <span class="na">employee</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">id</span><span class="p">:</span> <span class="mi">100324</span><span class="p">,</span>
+      <span class="na">gender</span><span class="p">:</span> <span class="s2">"female"</span><span class="p">,</span>
+      <span class="na">first_name</span><span class="p">:</span> <span class="s2">"Sarah"</span><span class="p">,</span>
+      <span class="na">last_name</span><span class="p">:</span> <span class="s2">"Brooks"</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
   <span class="na">service</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">slug</span><span class="p">:</span> <span class="s2">"mani"</span><span class="p">,</span>
     <span class="na">label</span><span class="p">:</span> <span class="s2">"Mani"</span>
@@ -764,6 +779,10 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
 </code></pre>
+<blockquote>
+<p>Note: employee field should only be set for providers that use a platform.</p>
+</blockquote>
+
 <p>This endpoint books an appoinment for the given parameters.</p>
 <h3 id='http-request-10'>HTTP Request</h3>
 <p><code>POST https://app-stage.slaybeautypass.com/api/transactions</code></p>
@@ -781,9 +800,9 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
 <td>The id of the provider that the appointment is being booked for.</td>
 </tr>
 <tr>
-<td>opening_id</td>
+<td>opening</td>
 <td>true</td>
-<td>The id of the opening that reflects the timing of the appointment</td>
+<td>The opening object that reflects the timing of the appointment</td>
 </tr>
 <tr>
 <td>service</td>
