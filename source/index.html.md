@@ -515,12 +515,12 @@ This endpoint books an appoinment for the given parameters.
 
 ### Body Parameters
 
-| Parameter    | Required | Description                                                       |
-| ------------ | -------- | ----------------------------------------------------------------- |
-| provider_id  | true     | The id of the provider that the appointment is being booked for.  |
-| opening_id   | true     | The id of the opening that reflects the timing of the appointment |
-| service      | true     | The service object for the requested appointment.                 |
-| is_confirmed | false    | If set to true, makes the appointment confirmed automatically.    |
+| Parameter    | Required | Description                                                      |
+| ------------ | -------- | ---------------------------------------------------------------- |
+| provider_id  | true     | The id of the provider that the appointment is being booked for. |
+| opening      | true     | The opening object that reflects the timing of the appointment   |
+| service      | true     | The service object for the requested appointment.                |
+| is_confirmed | false    | If set to true, makes the appointment confirmed automatically.   |
 
 <aside class="notice">
   `is_confirmed` should be set to true for all appointments being made by providers using a platform.
@@ -594,6 +594,7 @@ const headers = {
 
 axios.post(uri, data, headers);
 ```
+
 This endpoint is used to subscribe a user to a beauty pass subscriscription.
 
 ### HTTP Request
