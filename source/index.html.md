@@ -358,7 +358,12 @@ axios.get(uri, headers);
     "end_time": "2018-07-27 11:00:00.000",
     "is_available": true,
     "service_type": "mani",
-    "technician_id": 100324
+    "employee" : {
+      "id": 100324,
+      "gender": "female",
+      "first_name": "Sarah",
+      "last_name": "Brooks"
+    }    
   }
 ]
 ```
@@ -481,8 +486,8 @@ curl "https://app-stage.slaybeautypass.com/api/transactions"
   -H "Content-Type: application/json"
   -H "Authorization: Bearer <id_token>"
   -d '{"provider_id":"507f1f77bcf86cd799439011",
-      "opening_id": "507f1f77bcf86cd799439011",
-      "service": "{"slug": "mani", "label": "Mani"}",
+      "opening": '{"_id": "ObjectId('507f1f77bcf86cd799439011')", "start_time": "2019-06-01T12:00:00-04:00", "end_time": "2019-06-01T12:30:00-04:00", "employee": {"id": 100324, "gender": "female", "first_name": "Sarah", "last_name":"Brooks"}}',
+      "service": '{"slug": "mani", "label": "Mani"}',
       "is_confirmed": "true"
       }'
 ```
@@ -493,7 +498,17 @@ const axios = require("axios");
 const uri = "https://app-stage.slaybeautypass.com/api/transactions";
 const data = {
   provider_id: "507f1f77bcf86cd799439011",
-  opening_id: "507f1f77bcf86cd799439011",
+  opening: {
+    _id: ObjectId('507f1f77bcf86cd799439011'),
+    start_time: "2019-06-01T12:00:00-04:00",
+    end_time: "2019-06-01T12:30:00-04:00",
+    employee: {
+      id: 100324,
+      gender: "female",
+      first_name: "Sarah",
+      last_name: "Brooks",
+    }
+  },
   service: {
     slug: "mani",
     label: "Mani"
@@ -506,6 +521,8 @@ const headers = {
 
 axios.post(uri, data, headers);
 ```
+
+> Note: employee field should only be set for providers that use a platform.
 
 This endpoint books an appoinment for the given parameters.
 
