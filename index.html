@@ -595,11 +595,11 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/services"</span>
 <p>Example request:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings"</span>
+curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:00:00-04:00&amp;end_time=2019-06-01T12:30:00-04:00"</span>
   -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
 
-<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/openings"</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:00:00-04:00&amp;end_time=2019-06-01T12:30:00-04:00"</span><span class="p">;</span>
 <span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">Authorization</span><span class="p">:</span> <span class="s2">"Bearer &lt;id_token&gt;"</span>
 <span class="p">};</span>
@@ -612,8 +612,8 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings"</span>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ObjectId(</span><span class="se">\"</span><span class="s2">507f1f77bcf86cd799439011</span><span class="se">\"</span><span class="s2">)"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-27 10:00:00.000"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-27 11:00:00.000"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-01T12:00:00-04:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-01T12:30:00-04:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"is_available"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"service_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mani"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"employee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
