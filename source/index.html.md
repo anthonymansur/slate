@@ -333,14 +333,14 @@ This endpoint gets the list of active services from the database.
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app-stage.slaybeautypass.com/api/openings"
+curl "https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:00:00-04:00&end_time=2019-06-01T12:30:00-04:00"
   -H "Authorization: Bearer <id_token>"
 ```
 
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app-stage.slaybeautypass.com/api/openings";
+const uri = "https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:00:00-04:00&end_time=2019-06-01T12:30:00-04:00";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -354,8 +354,8 @@ axios.get(uri, headers);
 [
   {
     "provider_id": "ObjectId(\"507f1f77bcf86cd799439011\")",
-    "start_time": "2018-07-27 10:00:00.000",
-    "end_time": "2018-07-27 11:00:00.000",
+    "start_time": "2019-06-01T12:00:00-04:00",
+    "end_time": "2019-06-01T12:30:00-04:00",
     "is_available": true,
     "service_type": "mani",
     "employee": {
