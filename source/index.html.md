@@ -306,15 +306,18 @@ axios.get(uri, headers);
 [
   {
     "label": "Mani",
-    "slug": "mani"
+    "slug": "mani",
+    "default_time": 30
   },
   {
     "label": "Gel mani",
-    "slug": "gel_mani"
+    "slug": "gel_mani",
+    "default_time": 30
   },
   {
-    "label": "Brow wax",
-    "slug": "brow_wax"
+    "label": "Massage",
+    "slug": "massage",
+    "default_time": 60
   }
 ]
 ```
@@ -340,7 +343,8 @@ curl "https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:00:00-04:00&end_time=2019-06-01T12:30:00-04:00";
+const uri =
+  "https://app-stage.slaybeautypass.com/api/openings?start_time=019-06-01T12:00:00-04:00&end_time=2019-06-01T12:30:00-04:00";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -356,7 +360,6 @@ axios.get(uri, headers);
     "provider_id": "ObjectId(\"507f1f77bcf86cd799439011\")",
     "start_time": "2019-06-01T12:00:00-04:00",
     "end_time": "2019-06-01T12:30:00-04:00",
-    "is_available": true,
     "service_type": "mani",
     "employee": {
       "id": 100324,
@@ -368,7 +371,9 @@ axios.get(uri, headers);
 ]
 ```
 
-This endpoint gets the list of openings from the database.
+This endpoint gets the list of openings from the database. 
+
+For providers using a platform, there are many instances where an opening is associated with multiple employees. Unless specifically requested by the salon, the server outputs a random employee from the list of employees that meet the employee filter criteria every time the endpoint is called.
 
 ### HTTP Request
 
@@ -376,12 +381,18 @@ This endpoint gets the list of openings from the database.
 
 ### Query Parameters
 
-| Parameter   | Required | Description                                                                                                 |
-| ----------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| provider_id | false    | The id to filter the openings by.                                                                           |
-| service     | true     | The service (slug) to get the openings by.                                                                  |
-| start_time  | false    | If set, only get openings that start at or after start_time. Otherwise, default is set to an hour from now. |
-| end_time    | false    | If set, only get openings that end at or before end_time. Otherwise, default is set to EOD of start_time    |
+| Parameter       | Required | Description                                                                                                   |
+| --------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| provider_id     | true     | The id to filter the openings by.                                                                             |
+| service         | true     | The service (slug) to get the openings by.                                                                    |
+| start_time      | false    | If set, only get openings that start at or after start_time. Otherwise, default is set to an hour from now.   |
+| end_time        | false    | If set, only get openings that end at or before end_time. Otherwise, default is set to 11:59 PM of start_time |
+| employee_id     | false    | If set, only get openings from the specified employee                                                         |
+| employee_gender | false    | If set (to "male" or "female"), only get openings from employees with the specified gender.                   |
+
+<aside class="notice">
+  `employee_id` and `employee_gender` should only be used for providers using a platform. Also, for providers using a platform, end_time is overwritten to 11:59 PM of the start date.
+</aside>
 
 ## Get Opening Dates
 
@@ -735,6 +746,32 @@ const headers = {
 axios.post(uri, data, headers);
 ```
 
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "name": "Flawless",
+    "slug": "flawless",
+    "emoji": "",
+    "servicesAmount": {
+      "min": 5,
+      "max": 7
+    },
+    "credits": 60,
+    "price": 90,
+    "hasSalesTax": false,
+    "sales_tax_fee": 0,
+    "credit_card_fee": 2.9969104016477814,
+    "price_after_fees": 92.99691040164778,
+    "plan_id": "plan_FPKKSr3GeDLEeK",
+    "created": "2019-07-13T13:38:26-04:00",
+    "current_period_start": "2019-08-13T13:38:26-04:00",
+    "current_period_end": "2019-08-13T13:38:26-04:00"
+  }
+]
+```
+
 This endpoint is used to subscribe a user to a beauty pass subscriscription.
 
 ### HTTP Request
@@ -747,6 +784,62 @@ This endpoint is used to subscribe a user to a beauty pass subscriscription.
 | --------- | -------- | -------------------------------------------------------------- |
 | token     | true     | The stripe token corresponding to the user's debit/credit card |
 | plan_id   | true     | The id of the plan the user is subscribing to                  |
+
+# Platforms
+
+## Get Employees
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/platforms/technicians"
+  -H "Content-Type: application/json"
+  -H "Authorization: Bearer <id_token>"
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/platforms/technicians;
+
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.get(uri, data, headers);
+```
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "firstName": "Sarah",
+    "lastName": "Brooks",
+    "gender": "female",
+    "id": 100324
+  },
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "gender": "Male",
+    "id": 100465
+  }
+]
+```
+
+This endpoint is used to get the employees of a specified provider that uses a platform
+
+### HTTP Request
+
+`GET https://app-stage.slaybeautypass.com/api/platforms/technicians`
+
+### Body Parameters
+
+| Parameter   | Required | Description                                                                              |
+| ----------- | -------- | ---------------------------------------------------------------------------------------- |
+| provider_id | true     | The id of the provider to get the employees from                                         |
+| service     | false    | The service slug to filter employees that have an availability for the specified service |
 
 <!--
 ### Query Parameters
