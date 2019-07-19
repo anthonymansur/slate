@@ -126,7 +126,7 @@ axios.get(uri, headers);
 ]
 ```
 
-This endpoint retrieves the logged in customer.
+This endpoint retrieves the logged in customer from the database. If the customer doesn't exist, an empty array will be sent.
 
 ### HTTP Request
 
@@ -247,6 +247,7 @@ axios.get(uri, headers);
       }
     },
     "services_meta": "Mani, Pedi, Massage",
+    "time_zone": "America/New_York", // refer to moment-timezone
     "test_mode": false,
     "price_range": "$$",
     "tags": "Cocktail Bar, Free Parking, Pet Friendly",
@@ -458,20 +459,26 @@ axios.get(uri, headers);
     "customer_id": "ObjectId(\"507f1f77bcf86cd799439011\")",
     "provider_id": "ObjectId(\"507f1f77bcf86cd799439011\")",
     "opening_id": "ObjectId(\"507f1f77bcf86cd799439011\")",
+    "start_time": "2019-06-01T12:00:00-04:00",
+    "end_time": "2019-06-01T12:30:00-04:00",
+    "employee": {
+      "id": 100324,
+      "first_name": "Sarah",
+      "last_name": "Brooks",
+      "gender": "female"
+    },
     "credits_used": 15,
     "service_name": "mani",
     "is_cancelled": false,
     "is_cancelled_confirmed": false,
     "status": "confirmed", // can also be "denied" or "pending"
     "number_of_times_called": 0,
-    "platform_appointment_id": 0,
-    "technician_first_name": "Sarah",
-    "technician_last_name": "Brooks"
+    "platform_appointment_id": 0
   }
 ]
 ```
 
-> Note: platform_appointment_id, technician_first_name, and technician_last_name are only available if a provider is integrated with a platform.
+> Note: `platform_appointment_id` and `employee` are only available if a provider is integrated with a platform. `opening_id` is only available if a provider is not integrated with a platform.
 
 This endpoint gets the list of appointments of the authenticated user from the database.
 
