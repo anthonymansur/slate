@@ -408,7 +408,7 @@ You must replace <code>&lt;id_token&gt;</code> with your jwt token provided by A
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves the logged in customer.</p>
+<p>This endpoint retrieves the logged in customer from the database. If the customer doesn&#39;t exist, an empty array will be sent.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>GET https://app-stage.slaybeautypass.com/api/customers</code></p>
 <h2 id='add-new-customer'>Add New Customer</h2>
@@ -515,6 +515,7 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?servic
       </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="s2">"services_meta"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mani, Pedi, Massage"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"time_zone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"America/New_York"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">refer</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">moment-timezone</span><span class="w">
     </span><span class="s2">"test_mode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"price_range"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$$"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"tags"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cocktail Bar, Free Parking, Pet Friendly"</span><span class="p">,</span><span class="w">
@@ -732,20 +733,26 @@ const headers = {
     </span><span class="s2">"customer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ObjectId(</span><span class="se">\"</span><span class="s2">507f1f77bcf86cd799439011</span><span class="se">\"</span><span class="s2">)"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"provider_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ObjectId(</span><span class="se">\"</span><span class="s2">507f1f77bcf86cd799439011</span><span class="se">\"</span><span class="s2">)"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"opening_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ObjectId(</span><span class="se">\"</span><span class="s2">507f1f77bcf86cd799439011</span><span class="se">\"</span><span class="s2">)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-01T12:00:00-04:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-06-01T12:30:00-04:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"employee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">100324</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sarah"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Brooks"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"gender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"female"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
     </span><span class="s2">"credits_used"</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w">
     </span><span class="s2">"service_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mani"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"is_cancelled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"is_cancelled_confirmed"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"confirmed"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">can</span><span class="w"> </span><span class="err">also</span><span class="w"> </span><span class="err">be</span><span class="w"> </span><span class="s2">"denied"</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="s2">"pending"</span><span class="w">
     </span><span class="s2">"number_of_times_called"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"platform_appointment_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"technician_first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sarah"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"technician_last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Brooks"</span><span class="w">
+    </span><span class="s2">"platform_appointment_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <blockquote>
-<p>Note: platform_appointment_id, technician_first_name, and technician_last_name are only available if a provider is integrated with a platform.</p>
+<p>Note: <code>platform_appointment_id</code> and <code>employee</code> are only available if a provider is integrated with a platform. <code>opening_id</code> is only available if a provider is not integrated with a platform.</p>
 </blockquote>
 
 <p>This endpoint gets the list of appointments of the authenticated user from the database.</p>
