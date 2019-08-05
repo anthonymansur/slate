@@ -133,24 +133,6 @@ This endpoint retrieves the logged in customer from the database. If the custome
 
 ## Add New Customer
 
-This endpoint creates a customer with the email address of the authenticated user into the database.
-
-### HTTP Request
-
-`POST https://app-stage.slaybeautypass.com/api/customers`
-
-### Body Parameters
-
-| Parameter              | Required |
-| ---------------------- | -------- |
-| first_name             | yes      |
-| last_name              | yes      |
-| phone                  | yes      |
-| birthdate              | no       |
-| promo_code_on_purchase | no       |
-| is_guest               | no       |
-| test_mode              | no       |
-
 ```shell
 
 curl "https://app-stage.slaybeautypass.com/api/customers"
@@ -201,6 +183,25 @@ axios.post(uri, data, headers);
 ]
 ```
 
+This endpoint creates a customer with the email address of the authenticated user into the database.
+
+### HTTP Request
+
+`POST https://app-stage.slaybeautypass.com/api/customers`
+
+### Body Parameters
+
+| Parameter              | Required |
+| ---------------------- | -------- |
+| first_name             | yes      |
+| last_name              | yes      |
+| phone                  | yes      |
+| birthdate              | no       |
+| promo_code_on_purchase | no       |
+| is_guest               | no       |
+| test_mode              | no       |
+
+
 ## Charge Customer
 
 This endpoint charges the customer and returns the amount of money charged in USD.
@@ -216,22 +217,6 @@ This endpoint charges the customer and returns the amount of money charged in US
 | credits   | The number of credits to charge the customer. |
 
 ## Update Customer
-
-This endpoint updates the customer in the database.
-
-### HTTP Request
-
-`PUT https://app-stage.slaybeautypass.com/api/customers/update`
-
-### Body Parameters
-
-| Parameter              |
-| ---------------------- |
-| first_name             |
-| last_name              |
-| birthdate              |
-| phone                  |
-| promo_code_on_purchase |
 
 > Example request:
 
@@ -257,6 +242,23 @@ const data = {
 
 axios.put(uri, data, headers);
 ```
+
+This endpoint updates the customer in the database.
+
+### HTTP Request
+
+`PUT https://app-stage.slaybeautypass.com/api/customers/update`
+
+### Body Parameters
+
+| Parameter              |
+| ---------------------- |
+| first_name             |
+| last_name              |
+| birthdate              |
+| phone                  |
+| promo_code_on_purchase |
+
 
 # Provider
 
@@ -857,11 +859,6 @@ This endpoint is used to change the subscription of the user.
 
 
 ## Get Charges
-This endpoint is used to get all the charges of a user (limit 100).
-
-### HTTP Request
-
-`GET https://app-stage.slaybeautypass.com/api/charges`
 
 > Example request:
 
@@ -1000,14 +997,14 @@ axios.get(uri, headers);
     ...
   ]
 ```
-
-
-## Get Invoices
-This endpoint is used to get all the invoices of a user (limit 10).
+This endpoint is used to get all the charges of a user (limit 100).
 
 ### HTTP Request
 
-`GET https://app-stage.slaybeautypass.com/api/invoices`
+`GET https://app-stage.slaybeautypass.com/api/charges`
+
+
+## Get Invoices
 
 > Example request:
 
@@ -1150,6 +1147,11 @@ axios.get(uri, headers);
     ...
   ]
 ```
+This endpoint is used to get all the invoices of a user (limit 10).
+
+### HTTP Request
+
+`GET https://app-stage.slaybeautypass.com/api/invoices`
 
 # Platforms
 
