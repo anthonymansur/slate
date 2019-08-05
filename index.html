@@ -298,6 +298,15 @@
                   <li>
                     <a href="#subscribing-to-a-beauty-pass" class="toc-h2 toc-link" data-title="Subscribing to a Beauty Pass">Subscribing to a Beauty Pass</a>
                   </li>
+                  <li>
+                    <a href="#changing-into-a-different-beauty-pass" class="toc-h2 toc-link" data-title="Changing into a different Beauty Pass">Changing into a different Beauty Pass</a>
+                  </li>
+                  <li>
+                    <a href="#get-charges" class="toc-h2 toc-link" data-title="Get Charges">Get Charges</a>
+                  </li>
+                  <li>
+                    <a href="#get-invoices" class="toc-h2 toc-link" data-title="Get Invoices">Get Invoices</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -310,7 +319,6 @@
           </li>
       </ul>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
             <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
         </ul>
     </div>
@@ -318,7 +326,7 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Slay Beauty Pass API. You can use our API to access Slay API endpoints, which can get and update information from our database.</p>
+<p>Welcome to the Slay Beauty Pass Public API. You can use our API to access Slay API endpoints, which can get and update information from our database.</p>
 
 <p>We currently only have language bindings in shell and Javascript. You can view code examples in the dark area to the right.</p>
 
@@ -368,10 +376,10 @@ You must replace <code>&lt;id_token&gt;</code> with your jwt token provided by A
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an error message"</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an error message."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>All api requests give a response similar to what is shown on the right. If successful, the success property is set to true, and the items property is an array of objects.</p>
+<p>All api requests give a response similar to what is shown on the right unless specified otherwise. If successful, the success property is set to true, and the items property is an array of objects.</p>
 
 <p>If not successful, the success property is set to false, and the message property contains a strings with the error message.</p>
 <h1 id='customer'>Customer</h1><h2 id='get-customer'>Get Customer</h2><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://app-stage.slaybeautypass.com/api/customers"</span>
@@ -393,7 +401,7 @@ You must replace <code>&lt;id_token&gt;</code> with your jwt token provided by A
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"example@slaybeautypass.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john@slaybeautypass.com"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5555555555"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"birthdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1999-01-31"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"stripe_customer_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cus_FO7hGruL0FKJPE"</span><span class="p">,</span><span class="w">
@@ -415,11 +423,90 @@ You must replace <code>&lt;id_token&gt;</code> with your jwt token provided by A
 <p>This endpoint creates a customer with the email address of the authenticated user into the database.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
 <p><code>POST https://app-stage.slaybeautypass.com/api/customers</code></p>
-<h2 id='charge-customer'>Charge Customer</h2>
-<p>This endpoint charges the customer.</p>
+<h3 id='body-parameters'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>yes</td>
+</tr>
+<tr>
+<td>birthdate</td>
+<td>no</td>
+</tr>
+<tr>
+<td>promo_code_on_purchase</td>
+<td>no</td>
+</tr>
+<tr>
+<td>is_guest</td>
+<td>no</td>
+</tr>
+<tr>
+<td>test_mode</td>
+<td>no</td>
+</tr>
+</tbody></table>
+<pre class="highlight shell tab-shell"><code>
+curl <span class="s2">"https://app-stage.slaybeautypass.com/api/customers"</span>
+  -X POST
+  -H <span class="s2">"Content-Type: application/json"</span>
+  -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
+  -d <span class="s1">'{"first_name":"John", "last_name":"Doe", "phone":"5555555555", "promo_code_on_purchase":"SLAYEVERYDAY"}'</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/customers"</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">first_name</span><span class="p">:</span> <span class="s2">"John"</span><span class="p">,</span>
+  <span class="na">last_name</span><span class="p">:</span> <span class="s2">"Doe"</span><span class="p">,</span>
+  <span class="na">phone</span><span class="p">:</span> <span class="s2">"5555555555"</span><span class="p">,</span>
+  <span class="na">promo_code_on_purchase</span><span class="p">:</span> <span class="s2">"SLAYEVERYDAY"</span>
+<span class="p">};</span>
+
+<span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">Authorization</span><span class="p">:</span> <span class="s2">"Bearer &lt;id_token&gt;"</span>
+<span class="p">};</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"John"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Doe"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"john@slaybeautypass.com"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5555555555"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"birthdate"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"credits"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"personal_referrer_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"JOHN-DVJ3"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"personal_referrals"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"promo_code_on_purchase"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SLAYEVERYDAY"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"paid_invoices"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+    </span><span class="s2">"test_mode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_guest"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre><h2 id='charge-customer'>Charge Customer</h2>
+<p>This endpoint charges the customer and returns the amount of money charged in USD.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
 <p><code>PUT https://app-stage.slaybeautypass.com/api/customers/charge</code></p>
-<h3 id='body-parameters'>Body Parameters</h3>
+<h3 id='body-parameters-2'>Body Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -433,6 +520,30 @@ You must replace <code>&lt;id_token&gt;</code> with your jwt token provided by A
 </tbody></table>
 <h2 id='update-customer'>Update Customer</h2>
 <p>This endpoint updates the customer in the database.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PUT https://app-stage.slaybeautypass.com/api/customers/update</code></p>
+<h3 id='body-parameters-3'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+</tr>
+<tr>
+<td>last_name</td>
+</tr>
+<tr>
+<td>birthdate</td>
+</tr>
+<tr>
+<td>phone</td>
+</tr>
+<tr>
+<td>promo_code_on_purchase</td>
+</tr>
+</tbody></table>
 
 <blockquote>
 <p>Example request:</p>
@@ -454,31 +565,17 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/customers/update
 <span class="p">};</span>
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
-</code></pre><h3 id='http-request-4'>HTTP Request</h3>
-<p><code>PUT https://app-stage.slaybeautypass.com/api/customers/update</code></p>
-<h3 id='body-parameters-2'>Body Parameters</h3>
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>[Object]</td>
-<td>Object with the properties used to edit the customer.</td>
-</tr>
-</tbody></table>
-<h1 id='provider'>Provider</h1><h2 id='get-providers'>Get Providers</h2>
+</code></pre><h1 id='provider'>Provider</h1><h2 id='get-providers'>Get Providers</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?service=mani&amp;is_available=true&amp;user_latitude=35.232352&amp;user_longitude=-80.846744"</span>
+curl <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?service=mani&amp;user_latitude=35.232352&amp;user_longitude=-80.846744"</span>
   -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span>
-  <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?service=mani&amp;is_available=true&amp;user_latitude=35.232352&amp;user_longitude=-80.846744"</span><span class="p">;</span>
+  <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?service=mani&amp;user_latitude=35.232352&amp;user_longitude=-80.846744"</span><span class="p">;</span>
 <span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">Authorization</span><span class="p">:</span> <span class="s2">"Bearer &lt;id_token&gt;"</span>
 <span class="p">};</span>
@@ -524,6 +621,7 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?servic
     </span><span class="s2">"distance_to_user"</span><span class="p">:</span><span class="w"> </span><span class="mi">5020</span><span class="p">,</span><span class="w">
     </span><span class="s2">"distance_to_user_in_miles"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.1</span><span class="w">
   </span><span class="p">}</span><span class="w">
+  </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint gets the list of providers from the database. If the user&#39;s coordinates are provided, the endpoint will sort the providers from closest to farthest.</p>
@@ -545,11 +643,6 @@ A platform refers to a software booking system that a provider potentially uses 
 <td>service</td>
 <td>false</td>
 <td>The service (slug) to filter by.</td>
-</tr>
-<tr>
-<td>is_available</td>
-<td>false</td>
-<td>If set, only get providers with an active opening (filtered by service if service param is set.)</td>
 </tr>
 <tr>
 <td>user_latitude</td>
@@ -588,15 +681,11 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/services"</span>
     </span><span class="s2">"default_time"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Gel mani"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gel_mani"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"default_time"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
     </span><span class="s2">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Massage"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"massage"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"default_time"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="w">
   </span><span class="p">}</span><span class="w">
+  </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint gets the list of active services from the database.</p>
@@ -637,7 +726,11 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings?start_t
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint gets the list of openings from the database. </p>
+<blockquote>
+<p>The <code>employee</code> field is only seet for providers using a platform.</p>
+</blockquote>
+
+<p>This endpoint gets the list of openings from the database.</p>
 
 <p>For providers using a platform, there are many instances where an opening is associated with multiple employees. Unless specifically requested by the salon, the server outputs a random employee from the list of employees that meet the employee filter criteria every time the endpoint is called.</p>
 <h3 id='http-request-7'>HTTP Request</h3>
@@ -683,7 +776,7 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/openings?start_t
 </tbody></table>
 
 <aside class="notice">
-  `employee_id` and `employee_gender` should only be used for providers using a platform. Also, for providers using a platform, end_time is overwritten to 11:59 PM of the start date.
+  `employee_id` and `employee_gender` should only be used for providers using a platform. 
 </aside>
 <h2 id='get-opening-dates'>Get Opening Dates</h2>
 <blockquote>
@@ -755,7 +848,7 @@ const headers = {
 <p>Note: <code>platform_appointment_id</code> and <code>employee</code> are only available if a provider is integrated with a platform. <code>opening_id</code> is only available if a provider is not integrated with a platform.</p>
 </blockquote>
 
-<p>This endpoint gets the list of appointments of the authenticated user from the database.</p>
+<p>This endpoint gets the list of appointments (in ascending order of the <code>start_time</code>) of the authenticated user from the database.</p>
 <h3 id='http-request-9'>HTTP Request</h3>
 <p><code>GET https://app-stage.slaybeautypass.com/api/transactions</code></p>
 <h3 id='query-parameters-3'>Query Parameters</h3>
@@ -810,8 +903,7 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
   <span class="na">service</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">slug</span><span class="p">:</span> <span class="s2">"mani"</span><span class="p">,</span>
     <span class="na">label</span><span class="p">:</span> <span class="s2">"Mani"</span>
-  <span class="p">},</span>
-  <span class="na">is_confirmed</span><span class="p">:</span> <span class="s2">"true"</span>
+  <span class="p">}</span>
 <span class="p">};</span>
 <span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">Authorization</span><span class="p">:</span> <span class="s2">"Bearer &lt;id_token&gt;"</span>
@@ -826,7 +918,7 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
 <p>This endpoint books an appoinment for the given parameters.</p>
 <h3 id='http-request-10'>HTTP Request</h3>
 <p><code>POST https://app-stage.slaybeautypass.com/api/transactions</code></p>
-<h3 id='body-parameters-3'>Body Parameters</h3>
+<h3 id='body-parameters-4'>Body Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -842,7 +934,47 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
 <tr>
 <td>opening</td>
 <td>true</td>
-<td>The opening object that reflects the timing of the appointment</td>
+<td>The opening object that reflects the timing of the appointment.</td>
+</tr>
+<tr>
+<td>opening._id</td>
+<td>depends</td>
+<td>The id of the opening object (required if provider does not use a platform).</td>
+</tr>
+<tr>
+<td>opening.start_time</td>
+<td>true</td>
+<td>The start time of the appointment.</td>
+</tr>
+<tr>
+<td>opening.end_time</td>
+<td>false</td>
+<td>The end time of the appointment.</td>
+</tr>
+<tr>
+<td>opening.employee</td>
+<td>false</td>
+<td>The employee information.</td>
+</tr>
+<tr>
+<td>opening.employee.id</td>
+<td>true</td>
+<td>The id of the employee.</td>
+</tr>
+<tr>
+<td>opening.employee.gender</td>
+<td>true</td>
+<td>The gender of the employee (&quot;male&quot; or &quot;female&quot;).</td>
+</tr>
+<tr>
+<td>opening.employee.first_name</td>
+<td>true</td>
+<td>The first name of the employee.</td>
+</tr>
+<tr>
+<td>opening.employee.last_name</td>
+<td>true</td>
+<td>The last name of the employee.</td>
 </tr>
 <tr>
 <td>service</td>
@@ -850,15 +982,16 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</s
 <td>The service object for the requested appointment.</td>
 </tr>
 <tr>
-<td>is_confirmed</td>
-<td>false</td>
-<td>If set to true, makes the appointment confirmed automatically.</td>
+<td>service.slug</td>
+<td>true</td>
+<td>The service identifier.</td>
+</tr>
+<tr>
+<td>service.label</td>
+<td>true</td>
+<td>The service name.</td>
 </tr>
 </tbody></table>
-
-<aside class="notice">
-  `is_confirmed` should be set to true for all appointments being made by providers using a platform.
-</aside>
 <h2 id='cancel-appointment'>Cancel Appointment</h2>
 <blockquote>
 <p>Example request:</p>
@@ -881,10 +1014,10 @@ const headers = {
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
 </code></pre>
-<p>This endpoint cancel a booked appoinment.</p>
+<p>This endpoint cancels a booked appoinment and refunds the user the credits used to book the appointment. If the cancellation is within 12 hours, charges the user \$20.</p>
 <h3 id='http-request-11'>HTTP Request</h3>
 <p><code>PUT https://app-stage.slaybeautypass.com/api/transactions</code></p>
-<h3 id='body-parameters-4'>Body Parameters</h3>
+<h3 id='body-parameters-5'>Body Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -936,34 +1069,18 @@ const headers = {
     </span><span class="s2">"price_after_fees"</span><span class="p">:</span><span class="w"> </span><span class="mf">31.204943357363543</span><span class="p">,</span><span class="w">
     </span><span class="s2">"plan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plan_FPKJhDDIPntG71"</span><span class="w">
   </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Glow"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"glow"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"emoji"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"servicesAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"credits"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"hasSalesTax"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"sales_tax_fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"credit_card_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.6529351184345984</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"price_after_fees"</span><span class="p">:</span><span class="w"> </span><span class="mf">46.6529351184346</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"plan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plan_FPKK0QGkAfBOVK"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
+  </span><span class="err">...</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint is used to get all the subscription tiers currently offered.</p>
 <h3 id='http-request-12'>HTTP Request</h3>
-<p><code>POST https://app-stage.slaybeautypass.com/api/levels</code></p>
+<p><code>GET https://app-stage.slaybeautypass.com/api/levels</code></p>
 <h2 id='get-subscription'>Get Subscription</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
 curl <span class="s2">"https://app-stage.slaybeautypass.com/api/subscriptions"</span>
-  -H <span class="s2">"Content-Type: application/json"</span>
   -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
 
@@ -973,7 +1090,7 @@ const headers = {
   Authorization: "</span><span class="nx">Bearer</span> <span class="o">&lt;</span><span class="nx">id_token</span><span class="o">&gt;</span><span class="err">"</span>
 <span class="p">}</span>
 
-<span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
+<span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
 </code></pre>
 <blockquote>
 <p>The above command returns JSON structured like this:</p>
@@ -1002,23 +1119,23 @@ const headers = {
 </span></code></pre>
 <p>This endpoint is used to get the subscription tier of the logged in user.</p>
 <h3 id='http-request-13'>HTTP Request</h3>
-<p><code>POST https://app-stage.slaybeautypass.com/api/subscriptions</code></p>
+<p><code>GET https://app-stage.slaybeautypass.com/api/subscriptions</code></p>
 <h2 id='subscribing-to-a-beauty-pass'>Subscribing to a Beauty Pass</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
 curl <span class="s2">"https://app-stage.slaybeautypass.com/api/subscriptions"</span>
-  -X PUT
+  -X POST
   -H <span class="s2">"Content-Type: application/json"</span>
   -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
-  -d <span class="s1">'{"token": tok_1EuT6v2eZvKYlo2CHki1KX4, "plan_id": plan_DFpIzZ7mpBqUj0}'</span>
+  -d <span class="s1">'{"token": "tok_1EuT6v2eZvKYlo2CHki1KX4", "subscription": "flawless"}'</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
 
 <span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/subscriptions;
 const data = {
   token: "</span><span class="nx">tok_1EuT6v2eZvKYlo2CHki1KX4</span><span class="s2">",
-  plan_id: "</span><span class="nx">plan_DFpIzZ7mpBqUj0</span><span class="s2">"
+  subscription: "</span><span class="nx">flawless</span><span class="s2">"
 }
 const headers = {
   Authorization: "</span><span class="nx">Bearer</span> <span class="o">&lt;</span><span class="nx">id_token</span><span class="o">&gt;</span><span class="err">"</span>
@@ -1026,35 +1143,10 @@ const headers = {
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
 </code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Flawless"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"slug"</span><span class="p">:</span><span class="w"> </span><span class="s2">"flawless"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"emoji"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"servicesAmount"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="s2">"credits"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"hasSalesTax"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"sales_tax_fee"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"credit_card_fee"</span><span class="p">:</span><span class="w"> </span><span class="mf">2.9969104016477814</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"price_after_fees"</span><span class="p">:</span><span class="w"> </span><span class="mf">92.99691040164778</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"plan_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plan_FPKKSr3GeDLEeK"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-07-13T13:38:26-04:00"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"current_period_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-13T13:38:26-04:00"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"current_period_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-08-13T13:38:26-04:00"</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
 <p>This endpoint is used to subscribe a user to a beauty pass subscriscription.</p>
 <h3 id='http-request-14'>HTTP Request</h3>
 <p><code>POST https://app-stage.slaybeautypass.com/api/subscriptions</code></p>
-<h3 id='body-parameters-5'>Body Parameters</h3>
+<h3 id='body-parameters-6'>Body Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -1063,17 +1155,329 @@ const headers = {
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>subscription</td>
 <td>true</td>
-<td>The stripe token corresponding to the user&#39;s debit/credit card</td>
-</tr>
-<tr>
-<td>plan_id</td>
-<td>true</td>
-<td>The id of the plan the user is subscribing to</td>
+<td>The slug of the subscription the user is enrolling in.</td>
 </tr>
 </tbody></table>
-<h1 id='platforms'>Platforms</h1><h2 id='get-employees'>Get Employees</h2>
+<h2 id='changing-into-a-different-beauty-pass'>Changing into a different Beauty Pass</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
+curl <span class="s2">"https://app-stage.slaybeautypass.com/api/subscriptions"</span>
+  -X PUT
+  -H <span class="s2">"Content-Type: application/json"</span>
+  -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
+  -d <span class="s1">'{"subscription": "glam"}'</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/subscriptions;
+const data = {
+  plan_id: "</span><span class="nx">glam</span><span class="s2">"
+}
+const headers = {
+  Authorization: "</span><span class="nx">Bearer</span> <span class="o">&lt;</span><span class="nx">id_token</span><span class="o">&gt;</span><span class="err">"</span>
+<span class="p">}</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
+</code></pre>
+<p>This endpoint is used to change the subscription of the user.</p>
+<h3 id='http-request-15'>HTTP Request</h3>
+<p><code>PUT https://app-stage.slaybeautypass.com/api/subscriptions</code></p>
+<h3 id='body-parameters-7'>Body Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>subscription</td>
+<td>true</td>
+<td>The slug of the subscription the user is enrolling in</td>
+</tr>
+</tbody></table>
+<h2 id='get-charges'>Get Charges</h2>
+<p>This endpoint is used to get all the charges of a user (limit 100).</p>
+<h3 id='http-request-16'>HTTP Request</h3>
+<p><code>GET https://app-stage.slaybeautypass.com/api/charges</code></p>
+
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
+curl <span class="s2">"https://app-stage.slaybeautypass.com/api/charges"</span>
+  -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/charges;
+
+const headers = {
+  Authorization: "</span><span class="nx">Bearer</span> <span class="o">&lt;</span><span class="nx">id_token</span><span class="o">&gt;</span><span class="err">"</span>
+<span class="p">}</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ch_1CEPtWKyYYKKyjlMUd2fYjgA"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"charge"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"amount_refunded"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"application"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"application_fee"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"application_fee_amount"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"balance_transaction"</span><span class="p">:</span><span class="w"> </span><span class="s2">"txn_1F359pKyYYKKyjlM6CoSQlRS"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"billing_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"city"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"line1"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"line2"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"postal_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"33069"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Slay Web Application"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"captured"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141546</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"usd"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cus_CdhIgTIGkSLmqD"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"destination"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"dispute"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"failure_code"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"failure_message"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"fraud_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+      </span><span class="s2">"invoice"</span><span class="p">:</span><span class="w"> </span><span class="s2">"in_1CEPtWKyYYKKyjlMOU2tjexd"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"livemode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+      </span><span class="s2">"on_behalf_of"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"order"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"outcome"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"network_status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"approved_by_network"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"reason"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"risk_level"</span><span class="p">:</span><span class="w"> </span><span class="s2">"normal"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"seller_message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payment complete."</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"authorized"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"paid"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"payment_intent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"payment_method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card_1CEPtUKyYYKKyjlMGXpm64kl"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"payment_method_details"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"card"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"visa"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"checks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"address_line1_check"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"address_postal_code_check"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"cvc_check"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"exp_month"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"exp_year"</span><span class="p">:</span><span class="w"> </span><span class="mi">2041</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"fingerprint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pA0S4U5EGxGJykun"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"funding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"credit"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"last4"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4242"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"three_d_secure"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"wallet"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"receipt_email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"receipt_number"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"receipt_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pay.stripe.com/receipts/acct_1BvF4HKyYYKKyjlM/ch_1CEPtWKyYYKKyjlMUd2fYjgA/rcpt_EGvdwOtBTelnB8Cxzf1p5x64iip4Fzo"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"refunded"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"refunds"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"list"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+        </span><span class="s2">"has_more"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"total_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/charges/ch_1CEPtWKyYYKKyjlMUd2fYjgA/refunds"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"review"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"source"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card_1CEPtUKyYYKKyjlMGXpm64kl"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"card"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_city"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_country"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_line1"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_line1_check"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_line2"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_state"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_zip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"33069"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"address_zip_check"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"brand"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Visa"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cus_CdhIgTIGkSLmqD"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"cvc_check"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pass"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"dynamic_last4"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"exp_month"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"exp_year"</span><span class="p">:</span><span class="w"> </span><span class="mi">2041</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"fingerprint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pA0S4U5EGxGJykun"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"funding"</span><span class="p">:</span><span class="w"> </span><span class="s2">"credit"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"last4"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4242"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Slay Web Application"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tokenization_method"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"source_transfer"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"statement_descriptor"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"succeeded"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"transfer_data"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"transfer_group"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre><h2 id='get-invoices'>Get Invoices</h2>
+<p>This endpoint is used to get all the invoices of a user (limit 10).</p>
+<h3 id='http-request-17'>HTTP Request</h3>
+<p><code>GET https://app-stage.slaybeautypass.com/api/invoices</code></p>
+
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
+curl <span class="s2">"https://app-stage.slaybeautypass.com/api/invoices"</span>
+  -H <span class="s2">"Authorization: Bearer &lt;id_token&gt;"</span>
+</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
+
+<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/invoices;
+
+const headers = {
+  Authorization: "</span><span class="nx">Bearer</span> <span class="o">&lt;</span><span class="nx">id_token</span><span class="o">&gt;</span><span class="err">"</span>
+<span class="p">}</span>
+
+<span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The above command returns JSON structured like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"in_1CEPtWKyYYKKyjlMOU2tjexd"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"invoice"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"account_country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"US"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"account_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Slay"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"amount_due"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"amount_paid"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"amount_remaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"application_fee_amount"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"attempt_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"attempted"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"auto_advance"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"billing"</span><span class="p">:</span><span class="w"> </span><span class="s2">"charge_automatically"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"billing_reason"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"charge"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ch_1CEPtWKyYYKKyjlMUd2fYjgA"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"collection_method"</span><span class="p">:</span><span class="w"> </span><span class="s2">"charge_automatically"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141546</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"usd"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"custom_fields"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cus_FZJQXo0fY7oQm7"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_address"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"daniel@goslay.com"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_shipping"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_tax_exempt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"none"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"customer_tax_ids"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"default_payment_method"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"default_source"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"default_tax_rates"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"discount"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"due_date"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"ending_balance"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"footer"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"hosted_invoice_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pay.stripe.com/invoice/invst_9jRWzn3Uw4n6awIppFsCLBnmSv"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"invoice_pdf"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://pay.stripe.com/invoice/invst_9jRWzn3Uw4n6awIppFsCLBnmSv/pdf"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"lines"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sli_2f26e060e57d81"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"line_item"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"usd"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1 × Slay Test Pricing Plans (at $116.02 / month)"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"discountable"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"livemode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+            </span><span class="s2">"period"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1528411946</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1525733546</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"plan"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+              </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plan_CdhBXNvCQBGDWG"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"plan"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"active"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"aggregate_usage"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"billing_scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"per_unit"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141175</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"currency"</span><span class="p">:</span><span class="w"> </span><span class="s2">"usd"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"interval"</span><span class="p">:</span><span class="w"> </span><span class="s2">"month"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"interval_count"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"livemode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+              </span><span class="s2">"nickname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deprecated – Fierce"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"product"</span><span class="p">:</span><span class="w"> </span><span class="s2">"prod_CdhAyv6SbKnYyI"</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"tiers"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"tiers_mode"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"transform_usage"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"trial_period_days"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+              </span><span class="s2">"usage_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"licensed"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="s2">"proration"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"quantity"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subscription"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sub_CdhIYBYaCucjdU"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"subscription_item"</span><span class="p">:</span><span class="w"> </span><span class="s2">"si_CdhIxHl7AKbmS5"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tax_amounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"tax_rates"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+            </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscription"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"has_more"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"object"</span><span class="p">:</span><span class="w"> </span><span class="s2">"list"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/v1/invoices/in_1CEPtWKyYYKKyjlMOU2tjexd/lines"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"livemode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w">
+      </span><span class="s2">"next_payment_attempt"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"number"</span><span class="p">:</span><span class="w"> </span><span class="s2">"B642C00-0001"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"paid"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"payment_intent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"period_end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141546</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"period_start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141546</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"post_payment_credit_notes_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"pre_payment_credit_notes_amount"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"receipt_number"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"starting_balance"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"statement_descriptor"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"paid"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"status_transitions"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"finalized_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141546</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"marked_uncollectible_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"paid_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141546</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"voided_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"subscription"</span><span class="p">:</span><span class="w"> </span><span class="s2">"sub_CdhIYBYaCucjdU"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"subtotal"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tax"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"tax_percent"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">11602</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"total_tax_amounts"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+      </span><span class="s2">"webhooks_delivered_at"</span><span class="p">:</span><span class="w"> </span><span class="mi">1523141547</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="err">...</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span></code></pre><h1 id='platforms'>Platforms</h1><h2 id='get-employees'>Get Employees</h2>
 <blockquote>
 <p>Example request:</p>
 </blockquote>
@@ -1110,9 +1514,9 @@ const headers = {
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint is used to get the employees of a specified provider that uses a platform</p>
-<h3 id='http-request-15'>HTTP Request</h3>
+<h3 id='http-request-18'>HTTP Request</h3>
 <p><code>GET https://app-stage.slaybeautypass.com/api/platforms/technicians</code></p>
-<h3 id='body-parameters-6'>Body Parameters</h3>
+<h3 id='body-parameters-8'>Body Parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
