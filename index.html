@@ -581,11 +581,7 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/providers?servic
 <span class="p">};</span>
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+</code></pre><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"salon_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Salon"</span><span class="p">,</span><span class="w">
@@ -1004,12 +1000,12 @@ curl <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions/can
   -d <span class="s1">'{"transaction_id": 507f1f77bcf86cd799439011}'</span>
 </code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"axios"</span><span class="p">);</span>
 
-<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions;
-const data = {
-  transaction_id: "</span><span class="mi">507</span><span class="nx">f1f77bcf86cd799439011</span><span class="s2">"
-}
-const headers = {
-  Authorization: "</span><span class="nx">Bearer</span> <span class="o">&lt;</span><span class="nx">id_token</span><span class="o">&gt;</span><span class="err">"</span>
+<span class="kr">const</span> <span class="nx">uri</span> <span class="o">=</span> <span class="s2">"https://app-stage.slaybeautypass.com/api/transactions"</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">transaction_id</span><span class="p">:</span> <span class="s2">"507f1f77bcf86cd799439011"</span>
+<span class="p">}</span>
+<span class="kr">const</span> <span class="nx">headers</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">Authorization</span><span class="p">:</span> <span class="s2">"Bearer &lt;id_token&gt;"</span>
 <span class="p">}</span>
 
 <span class="nx">axios</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">headers</span><span class="p">);</span>
