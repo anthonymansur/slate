@@ -284,7 +284,6 @@ const headers = {
 axios.get(uri, headers);
 ```
 
-> The above command returns JSON structured like this:
 
 ```json
 [
@@ -646,7 +645,7 @@ curl "https://app-stage.slaybeautypass.com/api/transactions/cancel"
 ```javascript
 const axios = require("axios");
 
-const uri = "https://app-stage.slaybeautypass.com/api/transactions;
+const uri = "https://app-stage.slaybeautypass.com/api/transactions";
 const data = {
   transaction_id: "507f1f77bcf86cd799439011"
 }
