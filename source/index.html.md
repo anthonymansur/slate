@@ -17,7 +17,7 @@ search: true
 
 # Introduction
 
-Welcome to the Slay Beauty Pass API. You can use our API to access Slay API endpoints, which can get and update information from our database.
+Welcome to the Slay Beauty Pass Public API. You can use our API to access Slay API endpoints, which can get and update information from our database.
 
 We currently only have language bindings in shell and Javascript. You can view code examples in the dark area to the right.
 
@@ -74,11 +74,11 @@ Every subsequent api call will now contain information of the authenticated user
 ```json
 {
   "success": false,
-  "message": "This is an error message"
+  "message": "This is an error message."
 }
 ```
 
-All api requests give a response similar to what is shown on the right. If successful, the success property is set to true, and the items property is an array of objects.
+All api requests give a response similar to what is shown on the right unless specified otherwise. If successful, the success property is set to true, and the items property is an array of objects.
 
 If not successful, the success property is set to false, and the message property contains a strings with the error message.
 
@@ -110,7 +110,7 @@ axios.get(uri, headers);
     "id": 1,
     "first_name": "John",
     "last_name": "Doe",
-    "email": "example@slaybeautypass.com",
+    "email": "john@slaybeautypass.com",
     "phone": "5555555555",
     "birthdate": "1999-01-31",
     "stripe_customer_id": "cus_FO7hGruL0FKJPE",
@@ -140,9 +140,71 @@ This endpoint creates a customer with the email address of the authenticated use
 
 `POST https://app-stage.slaybeautypass.com/api/customers`
 
+### Body Parameters
+
+| Parameter              | Required |
+| ---------------------- | -------- |
+| first_name             | yes      |
+| last_name              | yes      |
+| phone                  | yes      |
+| birthdate              | no       |
+| promo_code_on_purchase | no       |
+| is_guest               | no       |
+| test_mode              | no       |
+
+```shell
+
+curl "https://app-stage.slaybeautypass.com/api/customers"
+  -X POST
+  -H "Content-Type: application/json"
+  -H "Authorization: Bearer <id_token>"
+  -d '{"first_name":"John", "last_name":"Doe", "phone":"5555555555", "promo_code_on_purchase":"SLAYEVERYDAY"}'
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/customers";
+
+const data = {
+  first_name: "John",
+  last_name: "Doe",
+  phone: "5555555555",
+  promo_code_on_purchase: "SLAYEVERYDAY"
+};
+
+const headers = {
+  Authorization: "Bearer <id_token>"
+};
+
+axios.post(uri, data, headers);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "id": 1,
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john@slaybeautypass.com",
+    "phone": "5555555555",
+    "birthdate": "",
+    "credits": 0,
+    "personal_referrer_code": "JOHN-DVJ3",
+    "personal_referrals": [],
+    "promo_code_on_purchase": "SLAYEVERYDAY",
+    "paid_invoices": [],
+    "test_mode": false,
+    "is_guest": false
+  }
+]
+```
+
 ## Charge Customer
 
-This endpoint charges the customer.
+This endpoint charges the customer and returns the amount of money charged in USD.
 
 ### HTTP Request
 
@@ -157,6 +219,20 @@ This endpoint charges the customer.
 ## Update Customer
 
 This endpoint updates the customer in the database.
+
+### HTTP Request
+
+`PUT https://app-stage.slaybeautypass.com/api/customers/update`
+
+### Body Parameters
+
+| Parameter              |
+| ---------------------- |
+| first_name             |
+| last_name              |
+| birthdate              |
+| phone                  |
+| promo_code_on_purchase |
 
 > Example request:
 
@@ -182,16 +258,6 @@ const data = {
 
 axios.put(uri, data, headers);
 ```
-
-### HTTP Request
-
-`PUT https://app-stage.slaybeautypass.com/api/customers/update`
-
-### Body Parameters
-
-| Parameter | Description                                           |
-| --------- | ----------------------------------------------------- |
-| [Object]  | Object with the properties used to edit the customer. |
 
 # Provider
 
@@ -372,7 +438,7 @@ axios.get(uri, headers);
 ]
 ```
 
-This endpoint gets the list of openings from the database. 
+This endpoint gets the list of openings from the database.
 
 For providers using a platform, there are many instances where an opening is associated with multiple employees. Unless specifically requested by the salon, the server outputs a random employee from the list of employees that meet the employee filter criteria every time the endpoint is called.
 
@@ -816,6 +882,7 @@ const headers = {
 
 axios.get(uri, data, headers);
 ```
+
 > The above command returns JSON structured like this:
 
 ```json
