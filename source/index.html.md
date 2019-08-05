@@ -6,7 +6,6 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
   - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -267,7 +266,7 @@ axios.put(uri, data, headers);
 
 ```shell
 # With shell, you can just pass the correct header with each request
-curl "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_available=true&user_latitude=35.232352&user_longitude=-80.846744"
+curl "https://app-stage.slaybeautypass.com/api/providers?service=mani&user_latitude=35.232352&user_longitude=-80.846744"
   -H "Authorization: Bearer <id_token>"
 ```
 
@@ -275,7 +274,7 @@ curl "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_availab
 const axios = require("axios");
 
 const uri =
-  "https://app-stage.slaybeautypass.com/api/providers?service=mani&is_available=true&user_latitude=35.232352&user_longitude=-80.846744";
+  "https://app-stage.slaybeautypass.com/api/providers?service=mani&user_latitude=35.232352&user_longitude=-80.846744";
 const headers = {
   Authorization: "Bearer <id_token>"
 };
@@ -322,6 +321,7 @@ axios.get(uri, headers);
     "distance_to_user": 5020,
     "distance_to_user_in_miles": 3.1
   }
+  ...
 ]
 ```
 
@@ -337,12 +337,11 @@ A platform refers to a software booking system that a provider potentially uses 
 
 ### Query Parameters
 
-| Parameter      | Required | Description                                                                                      |
-| -------------- | -------- | ------------------------------------------------------------------------------------------------ |
-| service        | false    | The service (slug) to filter by.                                                                 |
-| is_available   | false    | If set, only get providers with an active opening (filtered by service if service param is set.) |
-| user_latitude  | false    | The latitude of the user (if set, must also provide longitude)                                   |
-| user_longitude | false    | The longitude of the user (if set, must also provide latitude)                                   |
+| Parameter      | Required | Description                                                    |
+| -------------- | -------- | -------------------------------------------------------------- |
+| service        | false    | The service (slug) to filter by.                               |
+| user_latitude  | false    | The latitude of the user (if set, must also provide longitude) |
+| user_longitude | false    | The longitude of the user (if set, must also provide latitude) |
 
 # Service
 
@@ -377,15 +376,11 @@ axios.get(uri, headers);
     "default_time": 30
   },
   {
-    "label": "Gel mani",
-    "slug": "gel_mani",
-    "default_time": 30
-  },
-  {
     "label": "Massage",
     "slug": "massage",
     "default_time": 60
   }
+  ...
 ]
 ```
 
@@ -438,6 +433,8 @@ axios.get(uri, headers);
 ]
 ```
 
+> The `employee` field is only seet for providers using a platform.
+
 This endpoint gets the list of openings from the database.
 
 For providers using a platform, there are many instances where an opening is associated with multiple employees. Unless specifically requested by the salon, the server outputs a random employee from the list of employees that meet the employee filter criteria every time the endpoint is called.
@@ -458,7 +455,7 @@ For providers using a platform, there are many instances where an opening is ass
 | employee_gender | false    | If set (to "male" or "female"), only get openings from employees with the specified gender.                   |
 
 <aside class="notice">
-  `employee_id` and `employee_gender` should only be used for providers using a platform. Also, for providers using a platform, end_time is overwritten to 11:59 PM of the start date.
+  `employee_id` and `employee_gender` should only be used for providers using a platform. 
 </aside>
 
 ## Get Opening Dates
@@ -546,7 +543,7 @@ axios.get(uri, headers);
 
 > Note: `platform_appointment_id` and `employee` are only available if a provider is integrated with a platform. `opening_id` is only available if a provider is not integrated with a platform.
 
-This endpoint gets the list of appointments of the authenticated user from the database.
+This endpoint gets the list of appointments (in ascending order of the `start_time`) of the authenticated user from the database.
 
 ### HTTP Request
 
@@ -596,8 +593,7 @@ const data = {
   service: {
     slug: "mani",
     label: "Mani"
-  },
-  is_confirmed: "true"
+  }
 };
 const headers = {
   Authorization: "Bearer <id_token>"
@@ -616,16 +612,21 @@ This endpoint books an appoinment for the given parameters.
 
 ### Body Parameters
 
-| Parameter    | Required | Description                                                      |
-| ------------ | -------- | ---------------------------------------------------------------- |
-| provider_id  | true     | The id of the provider that the appointment is being booked for. |
-| opening      | true     | The opening object that reflects the timing of the appointment   |
-| service      | true     | The service object for the requested appointment.                |
-| is_confirmed | false    | If set to true, makes the appointment confirmed automatically.   |
-
-<aside class="notice">
-  `is_confirmed` should be set to true for all appointments being made by providers using a platform.
-</aside>
+| Parameter                   | Required | Description                                                                  |
+| --------------------------- | -------- | ---------------------------------------------------------------------------- |
+| provider_id                 | true     | The id of the provider that the appointment is being booked for.             |
+| opening                     | true     | The opening object that reflects the timing of the appointment.              |
+| opening.\_id                | depends  | The id of the opening object (required if provider does not use a platform). |
+| opening.start_time          | true     | The start time of the appointment.                                           |
+| opening.end_time            | false    | The end time of the appointment.                                             |
+| opening.employee            | false    | The employee information.                                                    |
+| opening.employee.id         | true     | The id of the employee.                                                      |
+| opening.employee.gender     | true     | The gender of the employee ("male" or "female").                             |
+| opening.employee.first_name | true     | The first name of the employee.                                              |
+| opening.employee.last_name  | true     | The last name of the employee.                                               |
+| service                     | true     | The service object for the requested appointment.                            |
+| service.slug                | true     | The service identifier.                                                      |
+| service.label               | true     | The service name.                                                            |
 
 ## Cancel Appointment
 
@@ -654,7 +655,7 @@ const headers = {
 axios.post(uri, data, headers);
 ```
 
-This endpoint cancel a booked appoinment.
+This endpoint cancels a booked appoinment and refunds the user the credits used to book the appointment. If the cancellation is within 12 hours, charges the user \$20.
 
 ### HTTP Request
 
@@ -711,22 +712,7 @@ axios.get(uri, data, headers);
     "price_after_fees": 31.204943357363543,
     "plan_id": "plan_FPKJhDDIPntG71"
   },
-  {
-    "name": "Glow",
-    "slug": "glow",
-    "emoji": "",
-    "servicesAmount": {
-      "min": 2,
-      "max": 3
-    },
-    "credits": 30,
-    "price": 45,
-    "hasSalesTax": false,
-    "sales_tax_fee": 0,
-    "credit_card_fee": 1.6529351184345984,
-    "price_after_fees": 46.6529351184346,
-    "plan_id": "plan_FPKK0QGkAfBOVK"
-  }
+  ...
 ]
 ```
 
@@ -734,7 +720,7 @@ This endpoint is used to get all the subscription tiers currently offered.
 
 ### HTTP Request
 
-`POST https://app-stage.slaybeautypass.com/api/levels`
+`GET https://app-stage.slaybeautypass.com/api/levels`
 
 ## Get Subscription
 
@@ -743,7 +729,6 @@ This endpoint is used to get all the subscription tiers currently offered.
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "https://app-stage.slaybeautypass.com/api/subscriptions"
-  -H "Content-Type: application/json"
   -H "Authorization: Bearer <id_token>"
 ```
 
@@ -756,7 +741,7 @@ const headers = {
   Authorization: "Bearer <id_token>"
 }
 
-axios.get(uri, data, headers);
+axios.get(uri, headers);
 ```
 
 > The above command returns JSON structured like this:
@@ -789,7 +774,7 @@ This endpoint is used to get the subscription tier of the logged in user.
 
 ### HTTP Request
 
-`POST https://app-stage.slaybeautypass.com/api/subscriptions`
+`GET https://app-stage.slaybeautypass.com/api/subscriptions`
 
 ## Subscribing to a Beauty Pass
 
@@ -798,10 +783,10 @@ This endpoint is used to get the subscription tier of the logged in user.
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "https://app-stage.slaybeautypass.com/api/subscriptions"
-  -X PUT
+  -X POST
   -H "Content-Type: application/json"
   -H "Authorization: Bearer <id_token>"
-  -d '{"token": tok_1EuT6v2eZvKYlo2CHki1KX4, "plan_id": plan_DFpIzZ7mpBqUj0}'
+  -d '{"token": "tok_1EuT6v2eZvKYlo2CHki1KX4", "subscription": "flawless"}'
 ```
 
 ```javascript
@@ -810,39 +795,13 @@ const axios = require("axios");
 const uri = "https://app-stage.slaybeautypass.com/api/subscriptions;
 const data = {
   token: "tok_1EuT6v2eZvKYlo2CHki1KX4",
-  plan_id: "plan_DFpIzZ7mpBqUj0"
+  subscription: "flawless"
 }
 const headers = {
   Authorization: "Bearer <id_token>"
 }
 
 axios.post(uri, data, headers);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "name": "Flawless",
-    "slug": "flawless",
-    "emoji": "",
-    "servicesAmount": {
-      "min": 5,
-      "max": 7
-    },
-    "credits": 60,
-    "price": 90,
-    "hasSalesTax": false,
-    "sales_tax_fee": 0,
-    "credit_card_fee": 2.9969104016477814,
-    "price_after_fees": 92.99691040164778,
-    "plan_id": "plan_FPKKSr3GeDLEeK",
-    "created": "2019-07-13T13:38:26-04:00",
-    "current_period_start": "2019-08-13T13:38:26-04:00",
-    "current_period_end": "2019-08-13T13:38:26-04:00"
-  }
-]
 ```
 
 This endpoint is used to subscribe a user to a beauty pass subscriscription.
@@ -853,10 +812,344 @@ This endpoint is used to subscribe a user to a beauty pass subscriscription.
 
 ### Body Parameters
 
-| Parameter | Required | Description                                                    |
-| --------- | -------- | -------------------------------------------------------------- |
-| token     | true     | The stripe token corresponding to the user's debit/credit card |
-| plan_id   | true     | The id of the plan the user is subscribing to                  |
+| Parameter    | Required | Description                                            |
+| ------------ | -------- | ------------------------------------------------------ |
+| subscription | true     | The slug of the subscription the user is enrolling in. |
+
+## Changing into a different Beauty Pass
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/subscriptions"
+  -X PUT
+  -H "Content-Type: application/json"
+  -H "Authorization: Bearer <id_token>"
+  -d '{"subscription": "glam"}'
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/subscriptions;
+const data = {
+  plan_id: "glam"
+}
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.put(uri, data, headers);
+```
+
+This endpoint is used to change the subscription of the user.
+
+### HTTP Request
+
+`PUT https://app-stage.slaybeautypass.com/api/subscriptions`
+
+### Body Parameters
+
+| Parameter    | Required | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| subscription | true     | The slug of the subscription the user is enrolling in          |
+
+
+## Get Charges
+This endpoint is used to get all the charges of a user (limit 100).
+
+### HTTP Request
+
+`GET https://app-stage.slaybeautypass.com/api/charges`
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/charges"
+  -H "Authorization: Bearer <id_token>"
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/charges;
+
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.get(uri, headers);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+      "id": "ch_1CEPtWKyYYKKyjlMUd2fYjgA",
+      "object": "charge",
+      "amount": 11602,
+      "amount_refunded": 0,
+      "application": null,
+      "application_fee": null,
+      "application_fee_amount": null,
+      "balance_transaction": "txn_1F359pKyYYKKyjlM6CoSQlRS",
+      "billing_details": {
+        "address": {
+          "city": null,
+          "country": null,
+          "line1": null,
+          "line2": null,
+          "postal_code": "33069",
+          "state": null
+        },
+        "email": null,
+        "name": "Slay Web Application",
+        "phone": null
+      },
+      "captured": true,
+      "created": 1523141546,
+      "currency": "usd",
+      "customer": "cus_CdhIgTIGkSLmqD",
+      "description": null,
+      "destination": null,
+      "dispute": null,
+      "failure_code": null,
+      "failure_message": null,
+      "fraud_details": {},
+      "invoice": "in_1CEPtWKyYYKKyjlMOU2tjexd",
+      "livemode": false,
+      "metadata": {},
+      "on_behalf_of": null,
+      "order": null,
+      "outcome": {
+        "network_status": "approved_by_network",
+        "reason": null,
+        "risk_level": "normal",
+        "seller_message": "Payment complete.",
+        "type": "authorized"
+      },
+      "paid": true,
+      "payment_intent": null,
+      "payment_method": "card_1CEPtUKyYYKKyjlMGXpm64kl",
+      "payment_method_details": {
+        "card": {
+          "brand": "visa",
+          "checks": {
+            "address_line1_check": null,
+            "address_postal_code_check": "pass",
+            "cvc_check": "pass"
+          },
+          "country": "US",
+          "exp_month": 1,
+          "exp_year": 2041,
+          "fingerprint": "pA0S4U5EGxGJykun",
+          "funding": "credit",
+          "last4": "4242",
+          "three_d_secure": null,
+          "wallet": null
+        },
+        "type": "card"
+      },
+      "receipt_email": null,
+      "receipt_number": null,
+      "receipt_url": "https://pay.stripe.com/receipts/acct_1BvF4HKyYYKKyjlM/ch_1CEPtWKyYYKKyjlMUd2fYjgA/rcpt_EGvdwOtBTelnB8Cxzf1p5x64iip4Fzo",
+      "refunded": false,
+      "refunds": {
+        "object": "list",
+        "data": [],
+        "has_more": false,
+        "total_count": 0,
+        "url": "/v1/charges/ch_1CEPtWKyYYKKyjlMUd2fYjgA/refunds"
+      },
+      "review": null,
+      "shipping": null,
+      "source": {
+        "id": "card_1CEPtUKyYYKKyjlMGXpm64kl",
+        "object": "card",
+        "address_city": null,
+        "address_country": null,
+        "address_line1": null,
+        "address_line1_check": null,
+        "address_line2": null,
+        "address_state": null,
+        "address_zip": "33069",
+        "address_zip_check": "pass",
+        "brand": "Visa",
+        "country": "US",
+        "customer": "cus_CdhIgTIGkSLmqD",
+        "cvc_check": "pass",
+        "dynamic_last4": null,
+        "exp_month": 1,
+        "exp_year": 2041,
+        "fingerprint": "pA0S4U5EGxGJykun",
+        "funding": "credit",
+        "last4": "4242",
+        "metadata": {},
+        "name": "Slay Web Application",
+        "tokenization_method": null
+      },
+      "source_transfer": null,
+      "statement_descriptor": null,
+      "status": "succeeded",
+      "transfer_data": null,
+      "transfer_group": null
+    },
+    ...
+  ]
+```
+
+
+## Get Invoices
+This endpoint is used to get all the invoices of a user (limit 10).
+
+### HTTP Request
+
+`GET https://app-stage.slaybeautypass.com/api/invoices`
+
+> Example request:
+
+```shell
+# With shell, you can just pass the correct header with each request
+curl "https://app-stage.slaybeautypass.com/api/invoices"
+  -H "Authorization: Bearer <id_token>"
+```
+
+```javascript
+const axios = require("axios");
+
+const uri = "https://app-stage.slaybeautypass.com/api/invoices;
+
+const headers = {
+  Authorization: "Bearer <id_token>"
+}
+
+axios.get(uri, headers);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+    {
+      "id": "in_1CEPtWKyYYKKyjlMOU2tjexd",
+      "object": "invoice",
+      "account_country": "US",
+      "account_name": "Slay",
+      "amount_due": 11602,
+      "amount_paid": 11602,
+      "amount_remaining": 0,
+      "application_fee_amount": null,
+      "attempt_count": 1,
+      "attempted": true,
+      "auto_advance": false,
+      "billing": "charge_automatically",
+      "billing_reason": null,
+      "charge": "ch_1CEPtWKyYYKKyjlMUd2fYjgA",
+      "collection_method": "charge_automatically",
+      "created": 1523141546,
+      "currency": "usd",
+      "custom_fields": null,
+      "customer": "cus_FZJQXo0fY7oQm7",
+      "customer_address": null,
+      "customer_email": "daniel@goslay.com",
+      "customer_name": null,
+      "customer_phone": null,
+      "customer_shipping": null,
+      "customer_tax_exempt": "none",
+      "customer_tax_ids": [],
+      "default_payment_method": null,
+      "default_source": null,
+      "default_tax_rates": [],
+      "description": null,
+      "discount": null,
+      "due_date": null,
+      "ending_balance": 0,
+      "footer": null,
+      "hosted_invoice_url": "https://pay.stripe.com/invoice/invst_9jRWzn3Uw4n6awIppFsCLBnmSv",
+      "invoice_pdf": "https://pay.stripe.com/invoice/invst_9jRWzn3Uw4n6awIppFsCLBnmSv/pdf",
+      "lines": {
+        "data": [
+          {
+            "id": "sli_2f26e060e57d81",
+            "object": "line_item",
+            "amount": 11602,
+            "currency": "usd",
+            "description": "1 × Slay Test Pricing Plans (at $116.02 / month)",
+            "discountable": true,
+            "livemode": false,
+            "metadata": {},
+            "period": {
+              "end": 1528411946,
+              "start": 1525733546
+            },
+            "plan": {
+              "id": "plan_CdhBXNvCQBGDWG",
+              "object": "plan",
+              "active": true,
+              "aggregate_usage": null,
+              "amount": 11602,
+              "billing_scheme": "per_unit",
+              "created": 1523141175,
+              "currency": "usd",
+              "interval": "month",
+              "interval_count": 1,
+              "livemode": false,
+              "metadata": {},
+              "nickname": "Deprecated – Fierce",
+              "product": "prod_CdhAyv6SbKnYyI",
+              "tiers": null,
+              "tiers_mode": null,
+              "transform_usage": null,
+              "trial_period_days": null,
+              "usage_type": "licensed"
+            },
+            "proration": false,
+            "quantity": 1,
+            "subscription": "sub_CdhIYBYaCucjdU",
+            "subscription_item": "si_CdhIxHl7AKbmS5",
+            "tax_amounts": [],
+            "tax_rates": [],
+            "type": "subscription"
+          }
+        ],
+        "has_more": false,
+        "object": "list",
+        "url": "/v1/invoices/in_1CEPtWKyYYKKyjlMOU2tjexd/lines"
+      },
+      "livemode": false,
+      "metadata": {},
+      "next_payment_attempt": null,
+      "number": "B642C00-0001",
+      "paid": true,
+      "payment_intent": null,
+      "period_end": 1523141546,
+      "period_start": 1523141546,
+      "post_payment_credit_notes_amount": 0,
+      "pre_payment_credit_notes_amount": 0,
+      "receipt_number": null,
+      "starting_balance": 0,
+      "statement_descriptor": null,
+      "status": "paid",
+      "status_transitions": {
+        "finalized_at": 1523141546,
+        "marked_uncollectible_at": null,
+        "paid_at": 1523141546,
+        "voided_at": null
+      },
+      "subscription": "sub_CdhIYBYaCucjdU",
+      "subtotal": 11602,
+      "tax": null,
+      "tax_percent": null,
+      "total": 11602,
+      "total_tax_amounts": [],
+      "webhooks_delivered_at": 1523141547
+    },
+    ...
+  ]
+```
 
 # Platforms
 
