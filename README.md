@@ -1,2 +1,2 @@
 # What this is
-This is an API documentation for the Public API I've worked on and maintain for the company [Slay Beauty Pass](https://slaybeautypass.com) during the summer of 2018 and 2019. Please feel free to see it by visting https://https://anthonymansur.github.io/slay-api-doc/.
+This is an API documentation for the Public API I've worked on and maintain for the company [Slay Beauty Pass](https://slaybeautypass.com) during the summer of 2018 and 2019. Please feel free to see it by visting https://anthonymansur.github.io/slay-api-doc/.
